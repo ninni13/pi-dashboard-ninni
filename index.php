@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'device.php');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'monitor.php');
 ?>
 <html>
 <head>
