@@ -1,1 +1,6 @@
-some info about MariaDB
+{
+    "host": "localhost",
+    "username": "Root ",
+    "password": "root12345",
+    "database": "monitoring"
+}
