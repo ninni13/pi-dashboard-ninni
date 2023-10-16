@@ -54,6 +54,11 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'device.php');
         </div>
     </nav>
 
+    <!-- Alerts Section -->
+    <div id="alerts" class="alert-area">
+        <!-- Alerts will be displayed here -->
+    </div>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-3">
