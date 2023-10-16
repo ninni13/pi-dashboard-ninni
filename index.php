@@ -22,6 +22,15 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'device.php');
     </script>
     <style type="text/css">
         .label {color: #999999; font-size: 75%; font-weight: bolder;}
+        
+        .alert-area {
+            color: red;
+            background-color: yellow;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid red;
+            display: none;  /* Initially hidden */
+        }
     </style>
 </head>
 <body>
