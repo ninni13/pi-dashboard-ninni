@@ -1,34 +1,37 @@
 <?php
+// These functions are extracted from the script you provided earlier
+// ... [other functions like get_device_model, get_info, etc.]
+
 function check_alerts() {
     global $D;
     $alerts = array();
 
-    // CPU 使用率警告
+    // CPU usage alert
     $cpu_usage = ($D['cpu']['stat']['user'] + $D['cpu']['stat']['sys'] + $D['cpu']['stat']['irq'] + $D['cpu']['stat']['softirq']) / 
                  ($D['cpu']['stat']['user'] + $D['cpu']['stat']['sys'] + $D['cpu']['stat']['idle'] + $D['cpu']['stat']['iowait'] + $D['cpu']['stat']['irq'] + $D['cpu']['stat']['softirq']) * 100;
     if ($cpu_usage > 90) {
-        $alerts[] = "高 CPU 使用率: " . round($cpu_usage) . "%";
+        $alerts[] = "High CPU Usage: " . round($cpu_usage) . "%";
     }
 
-    // CPU 溫度警告
+    // CPU temperature alert
     if ($D['cpu']['temp'][0] / 1000 > 70) {
-        $alerts[] = "CPU 溫度過高: " . ($D['cpu']['temp'][0] / 1000) . "°C";
+        $alerts[] = "High CPU Temperature: " . ($D['cpu']['temp'][0] / 1000) . "°C";
     }
 
-    // 記憶體使用警告
+    // Memory usage alert
     if ($D['mem']['percent'] > 85) {
-        $alerts[] = "高記憶體使用率: " . $D['mem']['percent'] . "%";
+        $alerts[] = "High Memory Usage: " . $D['mem']['percent'] . "%";
     }
 
-    // 磁盤使用警告
+    // Disk usage alert
     if ($D['disk']['percent'] > 90) {
-        $alerts[] = "磁盤空間不足: " . $D['disk']['percent'] . "% 已使用";
+        $alerts[] = "Low Disk Space: " . $D['disk']['percent'] . "% used";
     }
 
     return $alerts;
 }
 
-// 執行檢查功能
+// Execute the check function
 $alerts = check_alerts();
 ?>
 
