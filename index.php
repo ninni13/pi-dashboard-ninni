@@ -256,6 +256,23 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'device.php');
             </div>
         </div>
     </div>
+    <script language="JavaScript">
+        function updateAlerts(alerts) {
+            const alertArea = document.getElementById('alerts');
+            
+            if (alerts && alerts.length > 0) {
+                // Create an HTML string of all alerts
+                const alertHtml = alerts.map(alert => `<p>${alert}</p>`).join('');
+                
+                // Update the alert area and show it
+                alertArea.innerHTML = alertHtml;
+                alertArea.style.display = 'block';
+            } else {
+                // Hide the alert area if there are no alerts
+                alertArea.style.display = 'none';
+            }
+        }
+    </script>
 </div>
 <script src="assets/dashboard.min.js"></script>
 </body>
