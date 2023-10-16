@@ -1,24 +1,35 @@
 <?php
-function get_cpu_usage() {
-    // Dummy function: replace with actual logic to get CPU usage
-    return 85; // Example: CPU usage is 85%
-}
-
-function check_system_status() {
+function check_alerts() {
+    global $D;
     $alerts = array();
 
-    $cpu_usage = get_cpu_usage();
-
-    if ($cpu_usage > 80) {
-        $alerts[] = "High CPU usage: $cpu_usage%";
+    // CPU 使用率警告
+    $cpu_usage = ($D['cpu']['stat']['user'] + $D['cpu']['stat']['sys'] + $D['cpu']['stat']['irq'] + $D['cpu']['stat']['softirq']) / 
+                 ($D['cpu']['stat']['user'] + $D['cpu']['stat']['sys'] + $D['cpu']['stat']['idle'] + $D['cpu']['stat']['iowait'] + $D['cpu']['stat']['irq'] + $D['cpu']['stat']['softirq']) * 100;
+    if ($cpu_usage > 90) {
+        $alerts[] = "高 CPU 使用率: " . round($cpu_usage) . "%";
     }
 
-    // Add other system checks here as needed
+    // CPU 溫度警告
+    if ($D['cpu']['temp'][0] / 1000 > 70) {
+        $alerts[] = "CPU 溫度過高: " . ($D['cpu']['temp'][0] / 1000) . "°C";
+    }
+
+    // 記憶體使用警告
+    if ($D['mem']['percent'] > 85) {
+        $alerts[] = "高記憶體使用率: " . $D['mem']['percent'] . "%";
+    }
+
+    // 磁盤使用警告
+    if ($D['disk']['percent'] > 90) {
+        $alerts[] = "磁盤空間不足: " . $D['disk']['percent'] . "% 已使用";
+    }
 
     return $alerts;
 }
 
-$alerts = check_system_status();
+// 執行檢查功能
+$alerts = check_alerts();
 ?>
 
 <!DOCTYPE html>
