@@ -54,6 +54,35 @@ function check_system_status($settings) {
     return $alerts;
 }
 
+// Import database configurations
+$dbConfig = json_decode(file_get_contents('database_config.json'), true);
+$host = $dbConfig['host'];
+$dbname = $dbConfig['dbname'];
+$user = $dbConfig['user'];
+$password = $dbConfig['password'];
+
+// Establish database connection
+$pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+
+// Check the time of the last record
+$lastRecordQuery = $pdo->query("SELECT MAX(timestamp) AS lastTimestamp FROM monitor_data");
+$lastTimestamp = $lastRecordQuery->fetch(PDO::FETCH_ASSOC)['lastTimestamp'];
+
+// If the time of the last record is more than 10 minutes ago, then store new data
+if (strtotime($lastTimestamp) < strtotime('-10 minutes')) {
+    // Get monitoring data (this part of the code is extracted from your original file)
+    get_info();
+    $cpuUsage = ($D['cpu']['stat']['user'] + $D['cpu']['stat']['sys'] + $D['cpu']['stat']['irq'] + $D['cpu']['stat']['softirq']) / 
+                ($D['cpu']['stat']['user'] + $D['cpu']['stat']['sys'] + $D['cpu']['stat']['idle'] + $D['cpu']['stat']['iowait'] + $D['cpu']['stat']['irq'] + $D['cpu']['stat']['softirq']) * 100;
+    $cpuTemp = $D['cpu']['temp'][0] / 1000;
+    $memoryUsage = $D['mem']['percent'];
+    $diskUsage = $D['disk']['percent'];
+
+    // Store the data in the database
+    $stmt = $pdo->prepare("INSERT INTO monitor_data (cpu_usage, cpu_temperature, memory_usage, disk_usage) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$cpuUsage, $cpuTemp, $memoryUsage, $diskUsage]);
+}
+
 $alerts = check_system_status($settings);
 ?>
 
