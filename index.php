@@ -1,6 +1,5 @@
 <?php
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'device.php');
-require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'monitor.php');
 ?>
 <html>
 <head>
@@ -23,14 +22,7 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'monitor.php');
     </script>
     <style type="text/css">
         .label {color: #999999; font-size: 75%; font-weight: bolder;}
-        
-        .alert-area {
-            color: red;
-            background-color: yellow;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid red;
-            display: none;  /* Initially hidden */
+    
         }
     </style>
 </head>
@@ -64,11 +56,6 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'monitor.php');
             </div>
         </div>
     </nav>
-
-    <!-- Alerts Section -->
-    <div id="alerts" class="alert-area">
-        <!-- Alerts will be displayed here -->
-    </div>
     
     <div class="container">
         <div class="row">
@@ -258,23 +245,7 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'monitor.php');
             </div>
         </div>
     </div>
-    <script language="JavaScript">
-        function updateAlerts(alerts) {
-            const alertArea = document.getElementById('alerts');
-            
-            if (alerts && alerts.length > 0) {
-                // Create an HTML string of all alerts
-                const alertHtml = alerts.map(alert => `<p>${alert}</p>`).join('');
-                
-                // Update the alert area and show it
-                alertArea.innerHTML = alertHtml;
-                alertArea.style.display = 'block';
-            } else {
-                // Hide the alert area if there are no alerts
-                alertArea.style.display = 'none';
-            }
-        }
-    </script>
+
 </div>
 <script src="assets/dashboard.min.js"></script>
 </body>
